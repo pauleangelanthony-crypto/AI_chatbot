@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boat Chatbot - Decision Tree Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 5px solid #667eea;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #666;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .decision-tree {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .section {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+            color: #667eea;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border: 2px solid #0c5460;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .flow-step {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .flow-step::before {
+            content: "→";
+            position: absolute;
+            left: -25px;
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .flow-step:first-child::before {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .example {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #1976D2;
+            margin-bottom: 8px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚤 Boat Chatbot - Decision Tree Documentation</h1>
+        
+        <div class="section">
+            <p style="font-size: 1.1em; color: #555;">
+                This document illustrates the complete decision tree for processing user messages and generating responses in the Boat Chatbot plugin. 
+                It shows how the system intelligently routes queries through different processing paths to provide accurate and relevant responses.
+            </p>
+        </div>
+
+        <h2>📊 Main Flow Diagram</h2>
+        <div class="decision-tree">┌─────────────────────────────────────────────────────────────┐
+│                    User Message Received                     │
+│              (REST API or AJAX Request)                      │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Security Check (Nonce Verification)             │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Check Cache (message hash)                      │
+│                                                               │
+│  Cache Key: 'message_' + MD5(user_message)                   │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+            ┌───────────┴───────────┐
+            │                       │
+        CACHED?                 NOT CACHED
+            │                       │
+            ▼                       ▼
+    ┌───────────────┐     ┌──────────────────────┐
+    │ Return Cached │     │ Continue Processing  │
+    │   Response    │     │                      │
+    └───────┬───────┘     └──────────┬───────────┘
+            │                        │
+            │                        ▼
+            │            ┌──────────────────────────┐
+            │            │  Classify Intent          │
+            │            │  (check intent cache)    │
+            │            └───────────┬──────────────┘
+            │                        │
+            │            ┌───────────┴───────────┐
+            │            │                       │
+            │        CACHED?                 NOT CACHED
+            │            │                       │
+            │            ▼                       ▼
+            │    ┌──────────────┐      ┌──────────────────┐
+            │    │ Return       │      │ Analyze Message  │
+            │    │ Cached Intent│      │                 │
+            │    └──────┬───────┘      └────────┬───────┘
+            │            │                       │
+            │            └───────────┬───────────┘
+            │                        │
+            │                        ▼
+            │            ┌──────────────────────────┐
+            │            │  Intent Classification    │
+            │            │                          │
+            │            │  Step 1: Check Keywords:  │
+            │            │  - list, show, find      │
+            │            │  - price, cost, buy      │
+            │            │  - location, type         │
+            │            │                          │
+            │            │  Step 2: Check Patterns: │
+            │            │  - Price patterns         │
+            │            │  - Currency symbols       │
+            │            │                          │
+            │            │  Step 3: Hybrid Detection:│
+            │            │  - Semantic indicators    │
+            │            │  - Complex queries       │
+            │            │  - Natural language       │
+            └────────────┴───────────┬──────────────┘
+                                     │
+                    ┌────────────────┼────────────────┐
+                    │                │                │
+                    ▼                ▼                ▼
+        ┌──────────────────────┐  ┌──────────────┐  ┌──────────────────────────┐
+        │  database_query       │  │   hybrid     │  │  general_knowledge       │
+        │  (Intent = SQL)       │  │  (Intent =   │  │  (Intent = General)      │
+        │                       │  │  Hybrid)     │  │                          │
+        │  - Structured query   │  │              │  │  - No DB Query            │
+        │  - Exact matches      │  │  - Semantic  │  │  - General AI question    │
+        │  - SQL filters        │  │    search    │  │                          │
+        └──────────┬───────────┘  └──────┬───────┘  └──────────┬───────────────┘
+                   │                      │                     │
+                   │                      │                     ▼
+                   │                      │         ┌──────────────────────────┐
+                   │                      │         │  Get AI Response         │
+                   │                      │         │  (No DB Query)            │
+                   │                      │         │                          │
+                   │                      │         │  - Build prompt         │
+                   │                      │         │  - Call Grok API         │
+                   │                      │         │  - Filter blocked sites   │
+                   │                      │         └──────────┬───────────────────┘
+                   │                      │             │
+                   │                      │             │
+                   ▼                      ▼             │
+    ┌─────────────────────────────────────┘             │
+    │                                                  │
+    │  ┌──────────────────────────────────────┐       │
+    │  │  handle_database_query_optimized()   │       │
+    │  └──────────────┬───────────────────────┘       │
+    │                 │                                 │
+    │                 ▼                                 │
+    │  ┌──────────────────────────────────────┐            │
+    │  │  Query SQL Database                  │            │
+    │  │  - Extract search terms            │            │
+    │  │  - Build WHERE clause              │            │
+    │  │  - Execute query (limit 15)        │            │
+    │  │  - Get total count                 │            │
+    │  └──────────────┬───────────────────────┘            │
+    │                 │                                 │
+    └─────────────────┴─────────────────────────────────┘
+                     │
+                     ▼
+    ┌──────────────────────────────────────┐
+    │  handle_hybrid_query_optimized()     │
+    │                                      │
+    │  Step 1: Vector Database Search     │
+    │  - Convert query to embedding        │
+    │  - Semantic similarity search        │
+    │  - Get top N similar listings        │
+    │                                      │
+    │  Step 2: SQL Filter Application      │
+    │  - Extract structured filters        │
+    │  - Apply price/length/location       │
+    │  - Filter vector results             │
+    │                                      │
+    │  Step 3: Merge & Rank Results       │
+    │  - Combine vector + SQL results       │
+    │  - Apply relevance scoring           │
+    └──────────────┬───────────────────────┘
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │  Results Found?                      │
+    └──────────────┬───────────────────────┘
+                   │
+     ┌─────────────┴─────────────┐
+     │                           │
+   YES                         NO
+     │                           │
+     │                           ▼
+     │            ┌──────────────────────────┐
+     │            │  Try Broader Search       │
+     │            │  (fallback to SQL only)   │
+     │            └───────────┬───────────────┘
+     │                        │
+     │            ┌───────────┴───────────┐
+     │            │                       │
+     │        FOUND?                 NOT FOUND
+     │            │                       │
+     │            ▼                       ▼
+     │    ┌──────────────┐      ┌──────────────────┐
+     │    │ Process       │      │ Return Error     │
+     │    │ Results       │      │ Message         │
+     │    └───────┬───────┘      └──────────────────┘
+     │            │
+     └────────────┘
+                  │
+                  ▼
+    ┌──────────────────────────────────────┐
+    │  process_results_for_ai()           │
+    │  (Deduplication, Scoring, Sorting)   │
+    └──────────────┬───────────────────────┘
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │  format_listings_for_ai()            │
+    │  - Apply format template             │
+    │  - Replace placeholders              │
+    │  - Limit to token budget (~450)      │
+    └──────────────┬───────────────────────┘
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │  get_ai_response_optimized()         │
+    │                                      │
+    │  - Build prompt with:                │
+    │    * Tone of voice                  │
+    │    * Blocked websites restriction   │
+    │    * Formatted listings             │
+    │    * User message                   │
+    │                                      │
+    │  - Call Grok API                    │
+    │  - Handle errors                    │
+    │  - Filter blocked websites          │
+    └──────────────┬───────────────────────┘
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │  Cache Response                      │
+    │  - Store in transient cache          │
+    │  - Include response, intent, listings│
+    └──────────────┬───────────────────────┘
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │  Log Interaction                     │
+    │  - Save to wp_boat_chatbot_logs      │
+    │  - Include performance metrics        │
+    └──────────────┬───────────────────────┘
+                   │
+                   ▼
+    ┌──────────────────────────────────────┐
+    │  Return Response                     │
+    │                                      │
+    │  {                                   │
+    │    success: true,                    │
+    │    data: {                           │
+    │      response: AI response,          │
+    │      intent: classified intent,       │
+    │      listings: processed listings,   │
+    │      total_listings: count,         │
+    │      response_time: seconds,         │
+    │      performance_log: {...},          │
+    │      cached: false                   │
+    │    }                                  │
+    │  }                                   │
+    └──────────────────────────────────────┘</div>
+
+        <h2>🔍 Detailed Decision Points</h2>
+
+        <div class="section">
+            <h3>1. Cache Check</h3>
+            <ul>
+                <li><strong>Cache Key:</strong> <code>'message_' + MD5(user_message)</code></li>
+                <li><strong>If Cached:</strong> Return immediately with cached response</li>
+                <li><strong>If Not Cached:</strong> Continue to intent classification</li>
+            </ul>
+            <div class="info-box">
+                <strong>💡 Performance Tip:</strong> Caching significantly improves response times for repeated queries and reduces API costs.
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>2. Intent Classification</h3>
+            <ul>
+                <li><strong>Cache Key:</strong> <code>'intent_' + MD5(message)</code></li>
+                <li><strong>Methods:</strong>
+                    <ul>
+                        <li>Keyword matching (list, show, find, price, etc.)</li>
+                        <li>Price pattern matching (regex)</li>
+                        <li>Location/type keyword detection</li>
+                        <li>Hybrid detection (semantic indicators)</li>
+                    </ul>
+                </li>
+                <li><strong>Outcomes:</strong>
+                    <ul>
+                        <li><code>database_query</code>: Structured SQL query with exact matches</li>
+                        <li><code>hybrid</code>: Semantic search (vector DB) + SQL filters</li>
+                        <li><code>general_knowledge</code>: General AI question (no database)</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>3. Hybrid Intent Detection Logic</h3>
+            <p>A query should be classified as <code>hybrid</code> when it meets <strong>ALL</strong> of the following criteria:</p>
+            
+            <h4>✅ Has Database Query Indicators (must have at least one):</h4>
+            <ul>
+                <li>Contains keywords: <code>list</code>, <code>show</code>, <code>find</code>, <code>search</code>, <code>price</code>, <code>cost</code>, <code>buy</code>, <code>sale</code>, <code>listing</code></li>
+                <li>Contains location keywords: <code>where</code>, <code>location</code>, <code>area</code>, <code>region</code>, <code>city</code>, <code>place</code></li>
+                <li>Contains boat type keywords: <code>boat</code>, <code>yacht</code>, <code>vessel</code>, <code>craft</code>, <code>ship</code>, <code>sailboat</code>, <code>powerboat</code></li>
+                <li>Contains price patterns: "under $X", "how much", currency symbols</li>
+            </ul>
+
+            <h4>✅ Has Semantic/Complex Query Indicators (must have at least one):</h4>
+            <ul>
+                <li><strong>Natural language descriptions:</strong> Contains descriptive phrases like "luxury", "comfortable", "fast", "spacious", "well-maintained", "family-friendly"</li>
+                <li><strong>Subjective criteria:</strong> Words like "best", "good", "nice", "beautiful", "modern", "classic", "popular"</li>
+                <li><strong>Feature-based queries:</strong> Mentions specific features like "with galley", "sleeps 6", "has generator", "air conditioning"</li>
+                <li><strong>Use case queries:</strong> "for fishing", "for cruising", "for racing", "for charter"</li>
+                <li><strong>Complex multi-criteria:</strong> Combines multiple subjective criteria (e.g., "luxury yacht under $500k in Miami")</li>
+                <li><strong>Question format:</strong> Natural questions like "What boats are good for beginners?" or "Which yachts have the best amenities?"</li>
+                <li><strong>Comparative queries:</strong> "better", "compared to", "similar to", "like"</li>
+                <li><strong>Longer queries:</strong> Typically 10+ words indicating complex intent</li>
+            </ul>
+
+            <h4>✅ Has Structured Filters (optional but common):</h4>
+            <ul>
+                <li>Price ranges, length specifications, location, year ranges</li>
+                <li>These will be applied as SQL filters on vector DB results</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>📝 Examples of Hybrid Queries:</h4>
+                <div class="example">
+                    <div class="example-title">Example 1:</div>
+                    "Show me luxury yachts under $2 million in Florida with modern amenities"
+                </div>
+                <div class="example">
+                    <div class="example-title">Example 2:</div>
+                    "Find comfortable sailboats for long-distance cruising"
+                </div>
+                <div class="example">
+                    <div class="example-title">Example 3:</div>
+                    "What are the best family-friendly boats with good safety features?"
+                </div>
+                <div class="example">
+                    <div class="example-title">Example 4:</div>
+                    "I'm looking for a well-maintained fishing boat that's good for beginners"
+                </div>
+                <div class="example">
+                    <div class="example-title">Example 5:</div>
+                    "Show me spacious catamarans similar to Lagoon models"
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>📝 Examples of Non-Hybrid Queries:</h4>
+                <ul>
+                    <li><strong>"Show boats under $100k"</strong> → <code>database_query</code> (structured, no semantic)</li>
+                    <li><strong>"What is a sailboat?"</strong> → <code>general_knowledge</code> (no database query)</li>
+                    <li><strong>"List yachts in Miami"</strong> → <code>database_query</code> (structured filters only)</li>
+                    <li><strong>"How do I maintain a boat?"</strong> → <code>general_knowledge</code> (general question)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>4. Database Query Path (SQL Only)</h3>
+            <div class="flow-step">
+                <strong>Step 1:</strong> Query Database - Extract search terms, build WHERE clause, execute
+            </div>
+            <div class="flow-step">
+                <strong>Step 2:</strong> Results Check
+                <ul>
+                    <li><strong>If Results Found:</strong> Process and score</li>
+                    <li><strong>If No Results:</strong> Try broader search (no filters)
+                        <ul>
+                            <li><strong>If Broader Search Finds Results:</strong> Process those</li>
+                            <li><strong>If Still No Results:</strong> Return error message</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>5. Hybrid Query Path (Vector DB + SQL)</h3>
+            
+            <div class="flow-step">
+                <strong>Step 1: Vector Database Search</strong>
+                <ul>
+                    <li>Convert user query to embedding vector using embedding API</li>
+                    <li>Perform semantic similarity search in vector database</li>
+                    <li>Retrieve top N most semantically similar listings (e.g., top 50)</li>
+                    <li>Results ranked by cosine similarity / distance score</li>
+                </ul>
+            </div>
+
+            <div class="flow-step">
+                <strong>Step 2: SQL Filter Application</strong>
+                <ul>
+                    <li>Extract structured filters from query (price, length, location, year, etc.)</li>
+                    <li>Apply SQL WHERE clause filters to vector DB results</li>
+                    <li>Filter out results that don't match structured criteria</li>
+                    <li>This combines semantic relevance with exact filter matching</li>
+                </ul>
+            </div>
+
+            <div class="flow-step">
+                <strong>Step 3: Merge & Rank Results</strong>
+                <ul>
+                    <li>Combine vector similarity scores with SQL filter matches</li>
+                    <li>Apply relevance scoring algorithm</li>
+                    <li>Deduplicate results</li>
+                    <li>Sort by combined relevance score</li>
+                </ul>
+            </div>
+
+            <div class="flow-step">
+                <strong>Step 4: Results Check</strong>
+                <ul>
+                    <li><strong>If Results Found:</strong> Process and format for AI</li>
+                    <li><strong>If No Results:</strong> Fallback to SQL-only search
+                        <ul>
+                            <li><strong>If SQL Search Finds Results:</strong> Process those</li>
+                            <li><strong>If Still No Results:</strong> Return error message</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <h4>✨ Hybrid Approach Benefits:</h4>
+                <ul>
+                    <li><strong>Semantic Understanding:</strong> Finds boats based on meaning, not just keywords</li>
+                    <li><strong>Natural Language:</strong> Handles complex, descriptive queries</li>
+                    <li><strong>Precision:</strong> SQL filters ensure exact criteria are met</li>
+                    <li><strong>Best of Both:</strong> Combines semantic relevance with structured filtering</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>6. Results Processing</h3>
+            <ul>
+                <li><strong>Deduplication:</strong> Remove duplicates by ID or composite key</li>
+                <li><strong>Relevance Scoring:</strong> Calculate score based on:
+                    <ul>
+                        <li>Field matches (vessel name, type, manufacturer, etc.)</li>
+                        <li>Exact phrase matches</li>
+                        <li>Price range compatibility</li>
+                        <li>Length proximity</li>
+                        <li>Year matching</li>
+                    </ul>
+                </li>
+                <li><strong>Sorting:</strong> Sort by relevance score (highest first)</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>7. AI Response Generation</h3>
+            <ul>
+                <li><strong>Build Prompt:</strong> Include tone, restrictions, listings, user message</li>
+                <li><strong>Call Grok API:</strong> Send request with proper headers</li>
+                <li><strong>Error Handling:</strong> Handle API errors gracefully</li>
+                <li><strong>Filter Response:</strong> Remove blocked website references</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>8. Response Caching & Logging</h3>
+            <ul>
+                <li><strong>Cache:</strong> Store response for future identical queries</li>
+                <li><strong>Log:</strong> Save interaction to database with performance metrics</li>
+                <li><strong>Return:</strong> Send formatted response to client</li>
+            </ul>
+        </div>
+
+        <h2>⚡ Performance Optimizations</h2>
+        <div class="section">
+            <ul>
+                <li><strong>Caching:</strong> Both message responses and intent classifications are cached</li>
+                <li><strong>Parallel Processing:</strong> Database queries and AI calls can run in parallel where possible</li>
+                <li><strong>Token Limiting:</strong> Results are formatted to stay within token budget</li>
+                <li><strong>Result Processing:</strong> Deduplication and scoring happen before AI formatting to optimize relevance</li>
+            </ul>
+        </div>
+
+        <h2>⚠️ Error Handling</h2>
+        <div class="section">
+            <ul>
+                <li><strong>Database Connection Errors:</strong> Return user-friendly error message</li>
+                <li><strong>API Errors:</strong> Return fallback message, log error details</li>
+                <li><strong>Empty Results:</strong> Try broader search, then return helpful message</li>
+                <li><strong>Security Failures:</strong> Return 403 error with appropriate message</li>
+            </ul>
+        </div>
+
+        <h2>🔧 Key Methods Reference</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method Name</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>handle_rest_message()</code></td>
+                    <td>Main entry point for REST API</td>
+                </tr>
+                <tr>
+                    <td><code>classify_intent()</code></td>
+                    <td>Determines query type (database_query, hybrid, or general_knowledge)</td>
+                </tr>
+                <tr>
+                    <td><code>handle_database_query_optimized()</code></td>
+                    <td>Handles SQL-only database queries</td>
+                </tr>
+                <tr>
+                    <td><code>handle_hybrid_query_optimized()</code></td>
+                    <td>Handles hybrid queries (vector DB + SQL filters)</td>
+                </tr>
+                <tr>
+                    <td><code>handle_general_query_optimized()</code></td>
+                    <td>Handles general questions (no database)</td>
+                </tr>
+                <tr>
+                    <td><code>process_results_for_ai()</code></td>
+                    <td>Deduplication, scoring, sorting</td>
+                </tr>
+                <tr>
+                    <td><code>format_listings_for_ai()</code></td>
+                    <td>Formats results for AI context</td>
+                </tr>
+                <tr>
+                    <td><code>get_ai_response_optimized()</code></td>
+                    <td>Calls Grok API and processes response</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>🔬 Hybrid Intent Implementation Notes</h2>
+
+        <div class="section">
+            <h3>Vector Database Requirements</h3>
+            <ul>
+                <li><strong>Embedding Generation:</strong> Need embedding API (OpenAI, Grok, or similar) to convert queries to vectors</li>
+                <li><strong>Vector Storage:</strong> Vector database (Pinecone, Weaviate, Qdrant, pgvector, etc.) storing boat listing embeddings</li>
+                <li><strong>Embedding Fields:</strong> Typically embed: VesselName, Description, Summary, Type, Manufacturer, Model</li>
+                <li><strong>Similarity Metric:</strong> Cosine similarity or Euclidean distance for ranking</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3>Hybrid Query Flow</h3>
+            <ol>
+                <li><strong>Query → Embedding:</strong> Convert user query to embedding vector</li>
+                <li><strong>Vector Search:</strong> Find semantically similar listings (top 50-100)</li>
+                <li><strong>Extract Filters:</strong> Parse structured filters (price, length, location, year)</li>
+                <li><strong>Apply SQL Filters:</strong> Filter vector results by structured criteria</li>
+                <li><strong>Merge & Score:</strong> Combine similarity scores with filter matches</li>
+                <li><strong>Process:</strong> Deduplicate, score, sort results</li>
+                <li><strong>Format:</strong> Prepare for AI context</li>
+                <li><strong>AI Response:</strong> Send to Grok with formatted results</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h3>Performance Considerations</h3>
+            <ul>
+                <li><strong>Vector Search Speed:</strong> Vector DB queries are fast but embedding generation adds latency</li>
+                <li><strong>Caching:</strong> Cache embeddings for common queries</li>
+                <li><strong>Parallel Processing:</strong> Can run vector search and filter extraction in parallel</li>
+                <li><strong>Result Limiting:</strong> Limit vector results before SQL filtering to improve performance</li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; text-align: center; color: #777;">
+            <p>Boat Chatbot Plugin - Decision Tree Documentation</p>
+            <p style="font-size: 0.9em;">Generated from DECISION_TREE.md</p>
+        </div>
+    </div>
+</body>
+</html>
